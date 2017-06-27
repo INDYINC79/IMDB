@@ -1,0 +1,22 @@
+review: person(reviewer), movie, date, text, employer (Boston Globe, NY Times etc.)
+quote: Character, person(actor), movie, text
+Character: name, movie, person(actor), description - this table is a bridge between movie and person
+person: name, DOB, type (actor, director, writer,reviewer)
+director/movie bridge table
+writer/movie bridge table
+movies: title, year, genre, description
+theater/showtimes: theater name, location, show date/time
+
+GET(/movie?title=x&actor=y&director=z&year=a&genre=b)
+    - if no value is given for any of the parameters then no
+      result set is returned.
+GET(/actor)
+GET(/character)
+GET(/director)
+GET(/quote)
+GET(/review)
+DELETE(/review)
+DELETE(/theater/showtime)
+POST(/quote)
+POST(/movie)
+POST(/actor)
