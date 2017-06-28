@@ -1,10 +1,13 @@
 package lm.com.IMDB;
 
-public class Movie {
-	String title;
-	String genre;
-	int year;
-	String desc;
+import java.io.Serializable;
+
+public class Movie implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private String title;
+	private String genre;
+	private int year;
+	private String desc;
 	
 	public Movie(String title, String genre, int year, String desc) {
 		super();
@@ -12,6 +15,10 @@ public class Movie {
 		this.genre = genre;
 		this.year = year;
 		this.desc = desc;
+	}
+	
+	public Movie() {
+		
 	}
 	
 	@Override
