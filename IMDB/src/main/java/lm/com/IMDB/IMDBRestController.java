@@ -12,17 +12,20 @@ public class IMDBRestController {
 
 	@RequestMapping(path = "/movieLookup", method = RequestMethod.GET)
 	public ArrayList<Movie> movieInfo(String title, String genre, Integer year, String desc) {
+		Movie inputData = new Movie(title, genre, year, desc);
+		
 		ArrayList<Movie> movies = new ArrayList<Movie>();
+		movies.add(inputData);
 		return movies;
 	}
 	
 	@RequestMapping(path = "/personLookup", method = RequestMethod.GET)
 	public ArrayList<Person> personInfo(String name, String gender, String dob, String type) {
 		
-		Person lookupObject = new Person(name, gender, dob, type);
+		Person inputData = new Person(name, gender, dob, type);
 		
 		ArrayList<Person> people = new ArrayList<Person>();
-		people.add(lookupObject);
+		people.add(inputData);
 		
 		return people;
 	}
