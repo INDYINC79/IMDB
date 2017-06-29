@@ -16,8 +16,8 @@ public class IMDBController {
 	}
 	
 	@RequestMapping(path = "/person", method = RequestMethod.GET)
-	public String person(Model model, int personId, String name, String gender, String dob, String type) {
-		Person p = new Person(personId, name, gender, dob, type);
+	public String person(Model model, int personId, String name, String gender, String type) {
+		Person p = new Person(personId, name, gender, type);
 		model.addAttribute("person", p);
 		return "person";
 	}

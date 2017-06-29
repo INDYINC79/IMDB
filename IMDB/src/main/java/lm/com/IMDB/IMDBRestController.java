@@ -30,22 +30,22 @@ public class IMDBRestController {
 	}
 	
 	@RequestMapping(path = "/addMovie", method = RequestMethod.POST)
-	public Movie newMovie(@RequestBody Movie movie) {
-		movieRepository.save(movie);
-		return movie;
+	public List<Movie> newMovie(@RequestBody List<Movie> movie) {
+		List<Movie> addedMovies = new ArrayList<Movie>();
+		
+		for(int i = 0; i < movie.size(); i++) {
+			movieRepository.save(movie.get(i));
+			addedMovies.add(movie.get(i));
+		}
+		return addedMovies;
 	}
 	
-	@RequestMapping(path = "/updateMovie", method = RequestMethod.POST)
+	@RequestMapping(path = "/updateMovie", method = RequestMethod.PUT)
 	public ResponseEntity<?> updateMovie(@RequestBody Movie movie) {
-		
-		if (movie == null) {
-			System.out.println("here1");
-			return new ResponseEntity<>(movie, HttpStatus.BAD_REQUEST);
-		}
-		
+				
 		if (movie.getMovieId() == 0) {
-			System.out.println("here");
-			return new ResponseEntity<>(movie, HttpStatus.BAD_REQUEST);
+			String errorMessage = "movieId required.";
+			return new ResponseEntity<String>(errorMessage, HttpStatus.BAD_REQUEST);
 		}
 				
 		Movie existingUpdate = movieRepository.findOne(movie.getMovieId());
@@ -56,17 +56,11 @@ public class IMDBRestController {
 		return new ResponseEntity<Movie>(existingUpdate, HttpStatus.OK);
 	}
 	
-	@RequestMapping(path = "/deleteMovie", method = RequestMethod.POST)
-	public ResponseEntity<?> deleteMovie(@RequestBody Movie movie) {
-		
-		if (movie == null) {
-			System.out.println("here1");
-			return new ResponseEntity<>(movie, HttpStatus.BAD_REQUEST);
-		}
-		
+	@RequestMapping(path = "/deleteMovie", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteMovie(@RequestBody Movie movie) {	
 		if (movie.getMovieId() == 0) {
-			System.out.println("here");
-			return new ResponseEntity<>(movie, HttpStatus.BAD_REQUEST);
+			String errorMessage = "movieId required.";
+			return new ResponseEntity<String>(errorMessage, HttpStatus.BAD_REQUEST);
 		}
 
 		movieRepository.delete(movie.getMovieId());

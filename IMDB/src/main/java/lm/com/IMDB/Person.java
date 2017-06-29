@@ -35,12 +35,13 @@ public class Person implements Serializable{
 		
 	}
 	
-	public Person(int personId, String name, String gender, String dob, String type) {
+	public Person(int personId, String name, String gender, String type) {
 		this.personId = personId;
 		this.name = name;
 		this.gender = gender;
 		this.type = type;
 	}
+
 	@Override
 	public String toString() {
 		return "Person [personId=" + personId + ", name=" + name + ", gender=" + gender + ", type="
@@ -52,6 +53,7 @@ public class Person implements Serializable{
 	public void setPersonId(int personId) {
 		this.personId = personId;
 	}
+
 	public String getName() {
 		return name;
 	}
@@ -70,6 +72,4 @@ public class Person implements Serializable{
 	public void setType(String type) {
 		this.type = type;
 	}
-	
-	
 }

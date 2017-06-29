@@ -4,3 +4,5 @@
 
 target/
 IMDB/demojpa.mv.db
+application.properties
+
