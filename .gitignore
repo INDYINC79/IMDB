@@ -2,5 +2,5 @@
 
 .settings
 
-/target/
-demojpa.mv.db
+target/
+IMDB/demojpa.mv.db
