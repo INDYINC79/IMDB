@@ -2,4 +2,5 @@
 
 .settings
 
-target/
+/target/
+demojpa.mv.db

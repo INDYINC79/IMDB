@@ -1,4 +1,5 @@
 target/
+demojpa.mv.db
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
