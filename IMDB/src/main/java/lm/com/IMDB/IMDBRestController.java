@@ -33,7 +33,7 @@ public class IMDBRestController {
 		return movie;
 	}
 	
-	@RequestMapping(path = "/updateMovie", method = RequestMethod.POST)
+	@RequestMapping(path = "/updateMovie", method = RequestMethod.PUT)
 	public ResponseEntity<?> updateMovie(@RequestBody Movie movie) {
 		
 		if (movie == null) {
@@ -54,17 +54,11 @@ public class IMDBRestController {
 		return new ResponseEntity<Movie>(existingUpdate, HttpStatus.OK);
 	}
 	
-	@RequestMapping(path = "/deleteMovie", method = RequestMethod.POST)
-	public ResponseEntity<?> deleteMovie(@RequestBody Movie movie) {
-		
-		if (movie == null) {
-			System.out.println("here1");
-			return new ResponseEntity<>(movie, HttpStatus.BAD_REQUEST);
-		}
-		
+	@RequestMapping(path = "/deleteMovie", method = RequestMethod.DELETE)
+	public ResponseEntity<Movie> deleteMovie(@RequestBody Movie movie) {	
 		if (movie.getMovieId() == 0) {
-			System.out.println("here");
-			return new ResponseEntity<>(movie, HttpStatus.BAD_REQUEST);
+			
+			return new ResponseEntity<Movie>(HttpStatus.BAD_REQUEST);
 		}
 
 		movieRepository.delete(movie.getMovieId());
