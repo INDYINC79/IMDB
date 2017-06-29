@@ -2,15 +2,28 @@ package lm.com.IMDB;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Movie")
+
 public class Movie implements Serializable {
-	private static final long serialVersionUID = 1L;
+	 @Id
+	 @GeneratedValue
+	 private int movieId;
+	
+	
 	private String title;
 	private String genre;
-	private int year;
+	private String year;
 	private String desc;
 	
-	public Movie(String title, String genre, int year, String desc) {
+	public Movie(int movieId, String title, String genre, String year, String desc) {
 		super();
+		this.movieId = movieId;
 		this.title = title;
 		this.genre = genre;
 		this.year = year;
@@ -23,7 +36,17 @@ public class Movie implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Movie [title=" + title + ", genre=" + genre + ", year=" + year + ", description=" + desc + "]";
+		return "Movie [movieId=" + movieId + ", title=" + title + ", genre=" + genre + ", year=" + year + ", desc="
+				+ desc + "]";
+	}
+
+	
+	public int getMovieId() {
+		return movieId;
+	}
+
+	public void setMovieId(int movieId) {
+		this.movieId = movieId;
 	}
 
 	public String getTitle() {
@@ -42,11 +65,11 @@ public class Movie implements Serializable {
 		this.genre = genre;
 	}
 
-	public int getYear() {
+	public String getYear() {
 		return year;
 	}
 
-	public void setYear(int year) {
+	public void setYear(String year) {
 		this.year = year;
 	}
 
@@ -56,5 +79,20 @@ public class Movie implements Serializable {
 
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+	
+	public void merge(Movie m) {
+		if (m.getTitle() != null) {
+			this.setTitle(m.getTitle());
+		}
+		if (m.getGenre() != null) {
+			this.setGenre(m.getGenre());
+		}
+		if (m.getYear() != null) {
+			this.setYear(m.getYear());
+		}
+		if (m.getDesc() != null) {
+			this.setDesc(m.getDesc());
+		}
 	}
 }

@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class IMDBController {
 
 	@RequestMapping(path = "/movie", method = RequestMethod.GET)
-	public String movie(Model model, String title, String genre, int year, String desc) {
-		Movie m = new Movie(title, genre, year, desc);
+	public String movie(Model model, int movieId, String title, String genre, String year, String desc) {
+		Movie m = new Movie(movieId, title, genre, year, desc);
 		model.addAttribute("movie", m);
 		return "movie";
 	}
