@@ -11,11 +11,9 @@ import javax.persistence.Table;
 @Table(name = "Movie")
 
 public class Movie implements Serializable {
-	 @Id
-	 @GeneratedValue
-	 private int movieId;
-	
-	
+	@Id
+	@GeneratedValue
+	private int movieId;
 	private String title;
 	private String genre;
 	private String year;

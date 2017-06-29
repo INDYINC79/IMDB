@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class IMDBRestController {
 	@Autowired
 	private MovieRepository movieRepository;
+	@Autowired
+	private PersonRepository personRepository;
 	
 	@RequestMapping(path = "/movieLookup", method = RequestMethod.GET)
 	public List<Movie> movieInfo(Integer movieId, String title, String genre, String year, String desc) {
@@ -72,28 +74,62 @@ public class IMDBRestController {
 		return new ResponseEntity<Movie>(HttpStatus.OK);
 	}
 	
+//===================******************** Person methods ****************==============================	
+	
 	@RequestMapping(path = "/personLookup", method = RequestMethod.GET)
-	public ArrayList<Person> personInfo(String name, String gender, String dob, String type) {
+	public List<Person> personInfo(Integer personId, String name, String gender, String type) {
+		if(personId == null){
+			personId = 0;
+		}
 		
-		Person inputData = new Person(name, gender, dob, type);
-		
-		ArrayList<Person> people = new ArrayList<Person>();
-		people.add(inputData);
+		List<Person> people = personRepository.findAllByNameLike(name, gender, type);
 		
 		return people;
 	}
 	
-	
-	
 	@RequestMapping(path = "/addPerson", method = RequestMethod.POST)
-	public Person newPerson(@RequestBody Person person) {
-	    
-		return person;
+	public List <Person> newPerson(@RequestBody List <Person> person) {
+		
+		List<Person> people = new ArrayList<Person>();
+		
+		for(Person p : person){
+			personRepository.save(person);
+			people.add(p);
+		}
+		
+		
+		return people;
 	}
 	
 	@RequestMapping(path = "/updatePerson", method = RequestMethod.POST)
-	public Person updatePerson(@RequestBody Person person) {
-	    
-		return person;
+	public ResponseEntity<?> updatePerson(@RequestBody Person person) {
+		
+		if (person == null) {
+			return new ResponseEntity<>(person, HttpStatus.BAD_REQUEST);
+		}
+		if (person.getPersonId() == 0) {
+			return new ResponseEntity<>(person, HttpStatus.BAD_REQUEST);
+		}
+				
+		Person existingUpdate = personRepository.findOne(person.getPersonId());
+		existingUpdate.merge(person);
+		personRepository.save(existingUpdate);
+
+		return new ResponseEntity<Person>(existingUpdate, HttpStatus.OK);
+	}
+	
+	@RequestMapping(path = "/deletePerson", method = RequestMethod.POST)
+	public ResponseEntity<?> deletePerson(@RequestBody Person person) {
+		if (person == null) {
+			return new ResponseEntity<>(person, HttpStatus.BAD_REQUEST);
+		}
+		
+		if (person.getPersonId() == 0) {
+			return new ResponseEntity<>(person, HttpStatus.BAD_REQUEST);
+		}
+
+		personRepository.delete(person.getPersonId());
+		
+		return new ResponseEntity<Person>(HttpStatus.OK);
 	}
 }
