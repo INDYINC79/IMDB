@@ -6,8 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface MovieRepository extends JpaRepository<Movie, Integer> {
-//	@Query ("SELECT m FROM Movie m WHERE UPPER(title) LIKE UPPER(CONCAT('%',:title,'%'))")  
+public interface MovieRepository extends JpaRepository<Movie, Integer> {  
 	
 	@Query ("SELECT m FROM Movie m where (:title is null OR UPPER(title) LIKE UPPER(CONCAT('%',:title,'%')))"
 			+ "AND (:genre is null OR UPPER(genre) LIKE UPPER(CONCAT('%',:genre,'%')))"

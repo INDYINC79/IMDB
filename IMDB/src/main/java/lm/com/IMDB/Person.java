@@ -1,10 +1,17 @@
 package lm.com.IMDB;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -14,9 +21,13 @@ public class Person implements Serializable{
 	@Id
 	@GeneratedValue
 	private int personId;
-	String name;
-	String gender;
-	String type;
+	private String name;
+	private String gender;
+	private String type;
+	
+	@ManyToMany(mappedBy = "person", cascade=CascadeType.ALL)
+	private Set<Movie> movies = new HashSet<>();
+
 	
 	public void merge(Person p) {
 		if (p.getName() != null) {
@@ -42,11 +53,16 @@ public class Person implements Serializable{
 		this.type = type;
 	}
 
-	@Override
-	public String toString() {
-		return "Person [personId=" + personId + ", name=" + name + ", gender=" + gender + ", type="
-				+ type + "]";
+	public Set<Movie> getMovies() {
+		return movies;
 	}
+
+
+	public void setMovies(Set<Movie> movies) {
+		this.movies = movies;
+	}
+
+
 	public int getPersonId() {
 		return personId;
 	}

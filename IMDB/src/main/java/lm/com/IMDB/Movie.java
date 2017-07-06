@@ -1,10 +1,17 @@
 package lm.com.IMDB;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -17,8 +24,13 @@ public class Movie implements Serializable {
 	private String title;
 	private String genre;
 	private String year;
-	private String desc;
+	private String desc;	
 	
+	@ManyToMany(cascade=CascadeType.ALL)
+//	@JoinTable(name="movie_person", joinColumns=@JoinColumn(name="person_id"), 
+//	inverseJoinColumns=@JoinColumn(name="movie_id"))
+	private Set<Person> person = new HashSet<>();
+
 	public Movie(int movieId, String title, String genre, String year, String desc) {
 		super();
 		this.movieId = movieId;
@@ -31,13 +43,14 @@ public class Movie implements Serializable {
 	public Movie() {
 		
 	}
-	
-	@Override
-	public String toString() {
-		return "Movie [movieId=" + movieId + ", title=" + title + ", genre=" + genre + ", year=" + year + ", desc="
-				+ desc + "]";
+	 
+	public Set<Person> getPerson() {
+		return person;
 	}
 
+	public void setPerson(Set<Person> person) {
+		this.person = person;
+	}
 	
 	public int getMovieId() {
 		return movieId;
