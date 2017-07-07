@@ -13,6 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.google.gson.Gson;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -34,20 +36,28 @@ public class ImdbApplicationTests {
 
     @Test
     public void getPerson() throws Exception {
-        mockMvc.perform(get("/movieLookup?movieId=34"))
-        	.andExpect(status().isOk());
-           // .andExpect(jsonPath("$.title").value("Batman Returns"));
+        mockMvc.perform(get("/findMovieInfo/6"))
+        	.andExpect(status().isOk())
+            .andExpect(jsonPath("$.title").value("Sing Street"));
     }
     
-    @Test
-    public void LoadMovie() throws Exception {
-        Movie m = new Movie("TEST", "1982");
+    public void newMovie() throws Exception {
+        Movie m = new Movie("Jaws", "Thriller", "1982", "Fun Movie to Watch at the Lake");
         String json = new Gson().toJson(m);
-        mockMvc.perform(post("/api/movies/")
+        mockMvc.perform(post("/addMovie")
         .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON).content(json))
         .andExpect(status().isOk());
-        
     }
+    
+//    @Test
+//    public void LoadMovie() throws Exception {
+//        Movie m = new Movie("TEST", "1982");
+//        String json = new Gson().toJson(m);
+//        mockMvc.perform(post("/api/movies/")
+//        .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON).content(json))
+//        .andExpect(status().isOk());
+//        
+//    }
 //    @Test
 //    public void getTest() throws Exception{
 //        mockMvc.perform(get("/api/movies/40"))

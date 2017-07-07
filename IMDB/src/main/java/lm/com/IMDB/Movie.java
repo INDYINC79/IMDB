@@ -34,6 +34,14 @@ public class Movie implements Serializable {
 	//@JsonBackReference
 	private Set<Person> people;
 
+	public Movie(String title, String genre, String year, String desc) {
+		super();
+		this.title = title;
+		this.genre = genre;
+		this.year = year;
+		this.desc = desc;
+	}
+	
 	public Movie(int movieId, String title, String genre, String year, String desc) {
 		super();
 		this.movieId = movieId;
