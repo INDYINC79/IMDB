@@ -31,6 +31,7 @@ public class Person implements Serializable{
 	@ManyToMany
 	@JoinTable(name="movie_person", joinColumns=@JoinColumn(name="person_id"), 
 	inverseJoinColumns=@JoinColumn(name="movie_id"))
+	@JsonIgnore
 	//@JsonManagedReference
 	private Set<Movie> movies;
 
