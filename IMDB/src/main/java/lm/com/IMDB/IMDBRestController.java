@@ -60,7 +60,7 @@ public class IMDBRestController {
 			movieId = 0;
 		}
 		
-		List<Movie> movies = movieRepository.findAllByTitleLike(title, genre, year);
+		List<Movie> movies = movieRepository.findAllByTitleLike(movieId, title, genre, year);
 		System.out.println(movies.toString());
 		return movies;
 	}
