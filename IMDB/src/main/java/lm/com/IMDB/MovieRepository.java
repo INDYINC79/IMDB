@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import lm.com.IMDB.Movie;
+
 public interface MovieRepository extends JpaRepository<Movie, Integer> {  
 	
 	@Query ("SELECT m FROM Movie m where (:title is null OR UPPER(title) LIKE UPPER(CONCAT('%',:title,'%')))"

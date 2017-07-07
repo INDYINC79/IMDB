@@ -14,9 +14,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "Person")
-
 public class Person implements Serializable{
 	@Id
 	@GeneratedValue
@@ -25,8 +28,11 @@ public class Person implements Serializable{
 	private String gender;
 	private String type;
 	
-	@ManyToMany(mappedBy = "person", cascade=CascadeType.ALL)
-	private Set<Movie> movies = new HashSet<>();
+	@ManyToMany
+	@JoinTable(name="movie_person", joinColumns=@JoinColumn(name="person_id"), 
+	inverseJoinColumns=@JoinColumn(name="movie_id"))
+	//@JsonManagedReference
+	private Set<Movie> movies;
 
 	
 	public void merge(Person p) {
@@ -41,7 +47,6 @@ public class Person implements Serializable{
 		}
 	}
 	
-	
 	public Person() {
 		
 	}
@@ -52,20 +57,19 @@ public class Person implements Serializable{
 		this.gender = gender;
 		this.type = type;
 	}
-
+	
 	public Set<Movie> getMovies() {
 		return movies;
 	}
-
 
 	public void setMovies(Set<Movie> movies) {
 		this.movies = movies;
 	}
 
-
 	public int getPersonId() {
 		return personId;
 	}
+
 	public void setPersonId(int personId) {
 		this.personId = personId;
 	}
@@ -73,18 +77,23 @@ public class Person implements Serializable{
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	public String getGender() {
 		return gender;
 	}
+	
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+	
 	public String getType() {
 		return type;
 	}
+	
 	public void setType(String type) {
 		this.type = type;
 	}

@@ -14,6 +14,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "Movie")
 
@@ -24,12 +28,11 @@ public class Movie implements Serializable {
 	private String title;
 	private String genre;
 	private String year;
-	private String desc;	
+	private String desc;
 	
-	@ManyToMany(cascade=CascadeType.ALL)
-//	@JoinTable(name="movie_person", joinColumns=@JoinColumn(name="person_id"), 
-//	inverseJoinColumns=@JoinColumn(name="movie_id"))
-	private Set<Person> person = new HashSet<>();
+	@ManyToMany(cascade=CascadeType.ALL, mappedBy="movies")
+	//@JsonBackReference
+	private Set<Person> people;
 
 	public Movie(int movieId, String title, String genre, String year, String desc) {
 		super();
@@ -43,13 +46,13 @@ public class Movie implements Serializable {
 	public Movie() {
 		
 	}
-	 
-	public Set<Person> getPerson() {
-		return person;
+	
+	public Set<Person> getPeople() {
+		return people;
 	}
 
-	public void setPerson(Set<Person> person) {
-		this.person = person;
+	public void setPeople(Set<Person> people) {
+		this.people = people;
 	}
 	
 	public int getMovieId() {
