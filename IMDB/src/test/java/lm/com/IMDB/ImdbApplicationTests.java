@@ -18,6 +18,8 @@ import com.google.gson.Gson;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.ArrayList;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @WebAppConfiguration
@@ -26,6 +28,8 @@ public class ImdbApplicationTests {
 
 	@Autowired
     private WebApplicationContext wac;
+	@Autowired 
+	private MovieRepository movieRepository;
 
     private MockMvc mockMvc;
 
@@ -41,11 +45,15 @@ public class ImdbApplicationTests {
             .andExpect(jsonPath("$.title").value("Sing Street"));
     }
     
+    @Test
     public void newMovie() throws Exception {
         Movie m = new Movie("Jaws", "Thriller", "1982", "Fun Movie to Watch at the Lake");
+        String jList = "[";
         String json = new Gson().toJson(m);
+        jList += json + "]";
+        System.out.println(jList);
         mockMvc.perform(post("/addMovie")
-        .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON).content(json))
+        .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON).content(jList))
         .andExpect(status().isOk());
     }
     
