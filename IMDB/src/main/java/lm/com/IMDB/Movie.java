@@ -17,6 +17,9 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @Table(name = "Movie")
@@ -25,6 +28,7 @@ public class Movie implements Serializable {
 	@Id
 	@GeneratedValue
 	private int movieId;
+	@ApiModelProperty(required = true)
 	private String title;
 	private String genre;
 	private String year;
