@@ -1,8 +1,11 @@
 package lm.com.IMDB;
 
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpEntity;
+import org.springframework.web.client.RestTemplate;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -13,8 +16,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableSwagger2
 @SpringBootApplication
-public class ImdbApplication {
-	
+public class ImdbApplication implements CommandLineRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(ImdbApplication.class, args);
 	}
@@ -29,5 +31,13 @@ public class ImdbApplication {
 				.build()
 				.apiInfo(apiTitle)
 				.pathMapping("/");
+	}
+
+	@Override
+	public void run(String... arg0) throws Exception {
+		RestTemplate restTemplate = new RestTemplate(); 
+		HttpEntity<Movie> request = new HttpEntity<>(new Movie("Test", "Test", "1900", "Test"));
+		restTemplate.postForObject("http://localhost:8080/addMovie", request, Movie.class);
+		
 	}
 }
