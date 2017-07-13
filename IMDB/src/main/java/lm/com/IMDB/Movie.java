@@ -32,15 +32,15 @@ import io.swagger.annotations.ApiModelProperty;
 public class Movie implements Serializable {
 	@Id
 	@GeneratedValue
+	@NotNull
 	private int movieId;
 	
 	@NotNull(
 		message = "Title is Required",
 		groups = {newMovie.class})
-	
 	private String title;
 	private String genre;
-	@Pattern(regexp = "[0-9]+", message = "invalid year supplied")
+	@Pattern(regexp = "[0-9]+", message = "Invalid Year Supplied")
 	private String year;
 	private String desc;
 	

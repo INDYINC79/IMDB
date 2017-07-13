@@ -3,6 +3,8 @@ package lm.com.IMDB;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -81,7 +83,23 @@ public class IMDBRestController {
 
 	@RequestMapping(path = "/updateMovie", method = RequestMethod.PUT)
 	@ApiOperation(value = "Updates Movie Attributes", notes = "Will update the values that you provided.  All other fields will remain the same")
-	public ResponseEntity<?> updateMovie(@RequestBody Movie movie) {
+	public ResponseEntity<?> updateMovie(@Validated(Movie.newMovie.class) @RequestBody Movie movie) {
+
+//		if (movie.getMovieId() == 0) {
+//			String errorMessage = "movieId required.";
+//			return new ResponseEntity<String>(errorMessage, HttpStatus.BAD_REQUEST);
+//		}
+
+		Movie existingUpdate = movieRepository.findOne(movie.getMovieId());
+		existingUpdate.merge(movie);
+
+		movieRepository.save(existingUpdate);
+
+		return new ResponseEntity<Movie>(existingUpdate, HttpStatus.OK);
+	}
+	
+	@RequestMapping(path = "/updateSingleMovie", method = RequestMethod.PUT)
+	public ResponseEntity<?> updateSingleMovie(@RequestBody Movie movie) {
 
 		if (movie.getMovieId() == 0) {
 			String errorMessage = "movieId required.";
