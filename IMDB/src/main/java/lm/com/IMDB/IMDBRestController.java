@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,13 +42,20 @@ public class IMDBRestController {
 	@ApiOperation(value = "Creates New Movies")
 	@ApiResponses(value = {@ApiResponse(code = 201, message = "Successful Creation of an Agency") })
 	@RequestMapping(path = "/addMovie", method = RequestMethod.POST)
-	public List<Movie> newMovie(@RequestBody @ApiParam(required = true) List<Movie> movie) {
+	public List<Movie> newMovie(@RequestBody List<Movie> movie) {
 		List<Movie> addedMovies = new ArrayList<Movie>();
 		for (int i = 0; i < movie.size(); i++) {
 			movieRepository.save(movie.get(i));
 			addedMovies.add(movie.get(i));
 		}
 		return addedMovies;
+	}
+	
+	@RequestMapping(path = "/addSingleMovie", method = RequestMethod.POST)
+	public Movie addSingleMovie(@Validated(Movie.newMovie.class) @RequestBody Movie movie) {
+		Movie addedMovie = movieRepository.save(movie);
+		
+		return addedMovie;
 	}
 
 	@RequestMapping(path = "/findMovieInfo/{movieId}", method = RequestMethod.GET)

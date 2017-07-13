@@ -13,6 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Pattern;
+
+import org.h2.util.New;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,9 +33,14 @@ public class Movie implements Serializable {
 	@Id
 	@GeneratedValue
 	private int movieId;
-	@ApiModelProperty(required = true)
+	
+	@NotNull(
+		message = "Title is Required",
+		groups = {newMovie.class})
+	
 	private String title;
 	private String genre;
+	@Pattern(regexp = "[0-9]+", message = "invalid year supplied")
 	private String year;
 	private String desc;
 	
@@ -121,4 +131,8 @@ public class Movie implements Serializable {
 			this.setDesc(m.getDesc());
 		}
 	}
+	
+	public interface newMovie{}
+	
+	public interface existingMovie{}
 }
